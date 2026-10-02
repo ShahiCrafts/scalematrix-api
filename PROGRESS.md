@@ -37,3 +37,9 @@
 
 ### Verification status
 - No source fix is marked complete yet. A focused branch `fix/integration-workspace-isolation` was created from `main` for the correction.
+
+
+### 2026-10-02 follow-up
+- Attempted the focused controller correction to derive integration tenancy from `req.user.activeOrganization` while retaining `req.user._id` as the actor/`connectedBy` identity.
+- The repository write was blocked by the connected write safety layer. No source change or verification result is claimed.
+- This write path has reached its retry cap for the current issue; continue with the next non-blocked task rather than repeating it.
