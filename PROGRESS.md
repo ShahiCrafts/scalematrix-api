@@ -21,3 +21,19 @@
 
 ### Next
 - P0: identify the intended runner for the existing test files using the current Node/dependency stack and make `npm test` execute the real suite without adding dependencies.
+
+
+## 2026-10-02 — P0 integration tenant-isolation audit
+
+### Finding
+- Integration routes authenticate the user, but `integrationController` passes `req.user._id` into the Composio service as the tenant identifier.
+- `ComposioService` then stores that user id in `Connection.workspaceId`, even though the model declares `workspaceId` as a reference to `Workspace` and onboarding establishes `user.activeOrganization` as the active workspace.
+- This makes integration ownership user-scoped instead of workspace-scoped and breaks the documented tenant boundary for shared workspace members.
+
+### Planned correction
+- Derive the tenant from the authenticated user's active workspace and keep `connectedBy` as the authenticated user id.
+- Reject integration operations when no active workspace is available rather than silently substituting the user id.
+- Add regression coverage proving connection queries cannot cross workspace boundaries.
+
+### Verification status
+- No source fix is marked complete yet. A focused branch `fix/integration-workspace-isolation` was created from `main` for the correction.
