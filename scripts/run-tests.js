@@ -15,7 +15,7 @@ if (testFiles.length === 0) {
 let failures = 0;
 
 for (const file of testFiles) {
-  console.log(`\n=== ${file} ===`);
+  console.log('\n=== ' + file + ' ===');
   const result = spawnSync(process.execPath, [path.join(testsDir, file)], {
     stdio: 'inherit',
     env: process.env,
@@ -23,19 +23,19 @@ for (const file of testFiles) {
 
   if (result.error) {
     failures += 1;
-    console.error(`Failed to start ${file}:`, result.error);
+    console.error('Failed to start ' + file + ':', result.error);
     continue;
   }
 
   if (result.status !== 0) {
     failures += 1;
-    console.error(`${file} exited with status ${result.status ?? 'unknown'}`);
+    console.error(file + ' exited with status ' + (result.status ?? 'unknown'));
   }
 }
 
 if (failures > 0) {
-  console.error(`\n${failures} test file(s) failed.`);
+  console.error('\n' + failures + ' test file(s) failed.');
   process.exit(1);
 }
 
-console.log(`\nAll ${testFiles.length} test files passed.`);
+console.log('\nAll ' + testFiles.length + ' test files passed.');
