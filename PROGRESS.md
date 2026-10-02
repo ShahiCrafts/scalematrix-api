@@ -21,3 +21,18 @@
 
 ### Next
 - P0: identify the intended runner for the existing test files using the current Node/dependency stack and make `npm test` execute the real suite without adding dependencies.
+
+
+## 2026-10-02 — P0 test-runner wiring
+
+### Implemented
+- Wired `npm test` to `node scripts/run-tests.js` on `chore/wire-existing-tests`.
+- The runner discovers all `tests/*.test.js` files, executes them serially with the current Node runtime, preserves child exit failures, and adds no dependency.
+
+### Verification blocker
+- Execution is still required before this P0 can be marked complete or merged.
+- The current automation environment can read/write repository contents through the GitHub connector but cannot execute repository code locally.
+- Attempting to add a minimal GitHub Actions verification workflow and attempting to open the verification PR were both blocked by the connected write safety layer. No test result is being inferred or claimed.
+
+### Next
+- Keep this task open. On the next run, retry an available non-destructive execution/PR path; only mark the P0 complete after `npm test` actually exits 0.
